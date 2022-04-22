@@ -7,7 +7,7 @@ CREATE TABLE room (
 	url VARCHAR(255) NOT NULL,
 	start_time BIGINT NOT NULL,
 	paused BIGINT,
-	loop_media BOOLEAN NOT NULL,
+	loop_media BOOLEAN NOT NULL DEFAULT FALSE,
 	last_sync BIGINT NOT NULL,
 	PRIMARY KEY (id)
 );

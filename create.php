@@ -9,7 +9,7 @@ $conn = new mysqli($config["host"], $config["user"], $config["password"], $confi
 
 $conn->query("DELETE FROM room WHERE UNIX_TIMESTAMP() - last_sync > 60");
 
-$stmt = $conn->prepare("INSERT INTO room (room_key, url, start_time) VALUES (?, ?, UNIX_TIMESTAMP() + 2)");
+$stmt = $conn->prepare("INSERT INTO room (room_key, url, start_time, last_sync) VALUES (?, ?, UNIX_TIMESTAMP() + 2, UNIX_TIMESTAMP())");
 $stmt->bind_param("ss", $room, $url);
 
 $stmt->execute();
