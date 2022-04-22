@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS queue;
+DROP TABLE IF EXISTS room;
+
+CREATE TABLE room (
+	id INTEGER AUTO_INCREMENT,
+	room_key VARCHAR(36) NOT NULL,
+	url VARCHAR(255) NOT NULL,
+	start_time BIGINT NOT NULL,
+	paused BIGINT,
+	loop_media BOOLEAN NOT NULL,
+	last_sync BIGINT NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE queue (
+	id INTEGER AUTO_INCREMENT,
+	room_id INTEGER,
+	url VARCHAR(255),
+	PRIMARY KEY (id),
+	FOREIGN KEY (room_id) REFERENCES room (id)
+);

@@ -1,0 +1,241 @@
+html, body, input, button {
+	font-family: Helvetica, "Font Awesome 5 Free";
+	font-size: 2.4vmax;
+}
+
+html, body {
+	padding: 0;
+	margin: 0;
+	background: #000;
+	color: white;
+	overflow: hidden;
+}
+
+a {
+	color: white;
+}
+
+input {
+	width: auto;
+}
+
+.hover-menu-container {
+	position: absolute;
+}
+
+.hover-menu {
+	visibility: hidden;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1;
+	padding: 1.5vh 1.5vw;
+	pointer-events: none;
+}
+
+.hover-menu-container:hover .hover-menu {
+	visibility: visible;
+	pointer-events: auto;
+}
+
+mediaelementwrapper > iframe, mediaelementwrapper > video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	padding: 0;
+	margin: 0;
+}
+
+#info-container {
+	left: 50%;
+	top: 0%;
+	transform: translate(-50%, 0);
+}
+
+#info {
+	display: grid;
+	grid-template-columns: repeat(2, max-content);
+	grid-gap: 0.5vh 0.5vw;
+	align-items: center;
+	height: 10vh;
+	font-size: 2vmax;
+	border-radius: 0 0 10px 10px;
+}
+
+#controls-container {
+	left: 50%;
+	bottom: 0%;
+	transform: translate(-50%, 0);
+}
+
+#controls {
+	display: grid;
+	grid-template-columns: max-content auto repeat(3, max-content);
+	grid-gap: 0.5vh 0.5vw;
+	align-items: center;
+	height: 10vh;
+	align-self: center;
+	border-radius: 10px 10px 0 0;
+}
+
+#volume-control {
+	display: grid;
+	grid-template-columns: max-content auto max-content;
+	grid-gap: 0.25vh 0.25vw;
+	align-items: center;
+}
+
+#volume-status {
+	width: 2.5vw;
+}
+
+#volume {
+	flex-grow: 1;
+	width: 10vw;
+}
+
+#queue-container {
+	right: 0%;
+	top: 50%;
+	transform: translate(0, -50%);
+}
+
+#queue {
+	display: flex;
+	flex-flow: column;
+	height: 60vh;
+	width: 35vw;
+	border-radius: 10px 0 0 10px;
+}
+
+#queue-title {
+	border-bottom: solid 1px white;
+}
+
+#add-media {
+	display: flex;
+}
+
+#url {
+	flex-grow: 1;
+}
+
+#queue-list {
+	font-size: 1.5vmax;
+	display: flex;
+	flex-flow: column;
+	padding: 1vh 0;
+	flex-grow: 1;
+	overflow: auto;
+}
+
+.queue-item {
+	user-select: none;
+	cursor: pointer;
+	padding: 0.5vh 0;
+}
+
+#queue-controls {
+	display: flex;
+	flex-flow: row;
+	align-items: center;
+}
+
+#queue-controls button {
+	flex-grow: 1;
+}
+
+#room-settings-container {
+	top: 50%;
+	left: 0%;
+	transform: translate(0, -50%);
+}
+
+#room-settings {
+	display: flex;
+	flex-flow: column;
+	height: 60vh;
+	width: 35vw;
+	border-radius: 0 10px 10px 0;
+}
+
+#room-settings-title {
+	border-bottom: solid 1px white;
+}
+
+#room-settings-main {
+	flex-grow: 1;
+}
+
+@media (hover: none) and (orientation: portrait) {
+	html, body {
+		overflow: auto;
+	}
+
+	.hover-menu-container {
+		position: relative;
+	}
+
+	.hover-menu {
+		visibility: visible;
+	}
+
+	#controls-container {
+		left: auto;
+		bottom: auto;
+		transform: none;
+	}
+
+	#controls {
+		display: block;
+	}
+
+	#queue-container {
+		right: auto;
+		top: auto;
+		transform: none;
+	}
+
+	#queue {
+		width: auto;
+		height: auto;
+	}
+
+	#info-container {
+		left: auto;
+		top: auto;
+		transform: none;
+	}
+
+	#room-settings-container {
+		top: auto;
+		left: auto;
+		transform: none;
+	}
+
+	#room-settings {
+		width: auto;
+		height: auto;
+	}
+
+	#info {
+		width: auto;
+		height: auto;
+	}
+
+	#controls {
+		width: auto;
+		height: auto;
+	}
+
+	mediaelementwrapper > iframe, mediaelementwrapper > video {
+		position: relative;
+		height: 50vh;
+	}
+}
+
+@media (hover: none) and (orientation: landscape) {
+	.hover-menu-container {
+		display: none;
+	}
+}
