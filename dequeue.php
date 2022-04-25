@@ -3,9 +3,9 @@
 $room = $_GET["room"];
 $queue_id = $_GET["id"];
 
-$config = parse_ini_file("config.ini");
+$config = parse_ini_file("config.ini", true);
 
-$conn = new mysqli($config["host"], $config["user"], $config["password"], $config["database"], $config["port"]);
+$conn = new mysqli($config["database"]["host"], $config["database"]["user"], $config["database"]["password"], $config["database"]["name"], $config["database"]["port"]);
 
 if (isset($queue_id)) {
 	$stmt = $conn->prepare("SELECT url FROM queue WHERE id = ?");

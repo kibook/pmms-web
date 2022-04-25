@@ -87,7 +87,7 @@ window.addEventListener('load', () => {
 	setInterval(() => {
 		fetch(`sync.php?room=${roomKey}`).then(resp => resp.json()).then(resp => {
 			if (resp.url == null) {
-				return;
+				window.location = '.';
 			}
 
 			if (media == null || currentUrl != resp.url) {

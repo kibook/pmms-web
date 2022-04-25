@@ -3,9 +3,9 @@ $room = $_GET["room"];
 $loop = $_GET["loop"];
 $time = $_GET["time"];
 
-$config = parse_ini_file("config.ini");
+$config = parse_ini_file("config.ini", true);
 
-$conn = new mysqli($config["host"], $config["user"], $config["password"], $config["database"], $config["port"]);
+$conn = new mysqli($config["database"]["host"], $config["database"]["user"], $config["database"]["password"], $config["database"]["name"], $config["database"]["port"]);
 
 if ($loop == "yes") {
 	$stmt = $conn->prepare("UPDATE room SET loop_media = true WHERE room_key = ?");
