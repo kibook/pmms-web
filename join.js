@@ -113,17 +113,20 @@ window.addEventListener('load', () => {
 			}
 
 			if (resp.locked) {
-				lockButton.setLockedIcon();
+				if (lockButton.icon == "unlocked") {
+					lockButton.setLockedIcon();
 
-				if (resp.is_owner) {
-					disableControls(false);
-				} else {
-					disableControls(true);
+					if (resp.is_owner) {
+						disableControls(false);
+					} else {
+						disableControls(true);
+					}
 				}
 			} else {
-				lockButton.setUnlockedIcon();
-
-				disableControls(false);
+				if (lockButton.icon == "locked") {
+					lockButton.setUnlockedIcon();
+					disableControls(false);
+				}
 			}
 
 			if (media == null || currentUrl != resp.url) {
@@ -172,6 +175,16 @@ window.addEventListener('load', () => {
 
 			nextButton.queueId = resp.next;
 
+			if (resp.loop) {
+				if (loopButton.icon == "continue") {
+					loopButton.setLoopIcon();
+				}
+			} else {
+				if (loopButton.icon == "loop") {
+					loopButton.setContinueIcon();
+				}
+			}
+
 			if (resp.paused == null) {
 				progressBar.max = media.duration;
 				durationTimecode.innerHTML = timeToString(media.duration);
@@ -180,15 +193,7 @@ window.addEventListener('load', () => {
 
 				if (resp.loop) {
 					currentTime %= media.duration;
-
-					if (loopButton.icon == "continue") {
-						loopButton.setLoopIcon();
-					}
 				} else {
-					if (loopButton.icon == "loop") {
-						loopButton.setContinueIcon();
-					}
-
 					if (media.isReady && currentTime >= media.duration) {
 						if (nextButton.queueId != null) {
 							fetch(`dequeue.php?room=${roomKey}&id=${nextButton.queueId}`);
