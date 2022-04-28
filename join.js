@@ -38,13 +38,13 @@ window.addEventListener('load', () => {
 	let durationTimecode = document.getElementById('duration-timecode');
 	let homeButton = document.getElementById('home');
 	let sourceLink = document.getElementById('source');
-	let mediaTitle = document.getElementById('title');
 	let nextButton = document.getElementById('next');
 	let queueList = document.getElementById('queue-list');
 	let loopButton = document.getElementById('loop');
 	let fullscreenButton = document.getElementById('fullscreen');
 	let volumeSlider = document.getElementById('volume');
 	let volumeStatus = document.getElementById('volume-status');
+	let lockButton = document.getElementById('lock');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -70,6 +70,18 @@ window.addEventListener('load', () => {
 
 	loopButton.icon = "continue";
 
+	lockButton.setLockedIcon = function() {
+		this.innerHTML = '<i class="fas fa-lock"></i>';
+		this.icon = "locked";
+	}
+
+	lockButton.setUnlockedIcon = function() {
+		this.innerHTML = '<i class="fas fa-lock-open"></i>';
+		this.icon = "unlocked";
+	}
+
+	lockButton.icon = "unlocked";
+
 	volumeStatus.updateIcon = function() {
 		if (media != null && media.muted) {
 			this.innerHTML = '<i class="fas fa-volume-mute"></i>';
@@ -84,10 +96,34 @@ window.addEventListener('load', () => {
 
 	volumeStatus.updateIcon();
 
+	function disableControls(disabled) {
+		lockButton.disabled = disabled;
+		playButton.disabled = disabled;
+		progressBar.disabled = disabled;
+		queueVideoButton.disabled = disabled;
+		urlField.disabled = disabled;
+		nextButton.disabled = disabled;
+		loopButton.disabled = disabled;
+	}
+
 	setInterval(() => {
 		fetch(`sync.php?room=${roomKey}`).then(resp => resp.json()).then(resp => {
 			if (resp.url == null) {
 				window.location = '.';
+			}
+
+			if (resp.locked) {
+				lockButton.setLockedIcon();
+
+				if (resp.is_owner) {
+					disableControls(false);
+				} else {
+					disableControls(true);
+				}
+			} else {
+				lockButton.setUnlockedIcon();
+
+				disableControls(false);
 			}
 
 			if (media == null || currentUrl != resp.url) {
@@ -262,5 +298,9 @@ window.addEventListener('load', () => {
 			media.muted = !media.muted;
 			volumeStatus.updateIcon();
 		}
+	});
+
+	lockButton.addEventListener('click', function() {
+		fetch(`lock.php?room=${roomKey}`);
 	});
 });

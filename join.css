@@ -165,6 +165,9 @@ input {
 
 #room-settings-main {
 	flex-grow: 1;
+	padding: 1vh 0;
+	display: flex;
+	flex-flow: column;
 }
 
 @media (hover: none) and (orientation: portrait) {

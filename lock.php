@@ -14,9 +14,14 @@ $stmt->execute();
 $stmt->fetch();
 $stmt->close();
 
-if ($owner == null || session_id() == $owner) {
-	$stmt = $conn->prepare("UPDATE room SET paused = UNIX_TIMESTAMP() WHERE room_key = ?");
+if (session_id() == $owner) {
+	$stmt = $conn->prepare("UPDATE room SET owner = NULL WHERE room_key = ?");
 	$stmt->bind_param("s", $room);
+	$stmt->execute();
+	$stmt->close();
+} else if ($owner == null) {
+	$stmt = $conn->prepare("UPDATE room SET owner = ? WHERE room_key = ?");
+	$stmt->bind_param("ss", session_id(), $room);
 	$stmt->execute();
 	$stmt->close();
 }

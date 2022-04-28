@@ -9,6 +9,7 @@ CREATE TABLE room (
 	paused BIGINT,
 	loop_media BOOLEAN NOT NULL DEFAULT FALSE,
 	last_sync BIGINT NOT NULL,
+	owner VARCHAR(127),
 	PRIMARY KEY (id)
 );
 

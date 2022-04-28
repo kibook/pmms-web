@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -62,6 +65,9 @@
 			<div id="room-settings" class="hover-menu">
 				<div id="room-settings-title"><i class="fas fa-cog"></i> Room Settings</div>
 				<div id="room-settings-main">
+					<button id="lock">
+						<i class="fas fa-lock-open"></i>
+					</button>
 				</div>
 				<button id="home">
 					<i class="fas fa-home"></i>

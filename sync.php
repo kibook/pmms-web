@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $room = $_GET["room"];
 
@@ -11,9 +12,9 @@ $stmt->bind_param("s", $room);
 $stmt->execute();
 $stmt->close();
 
-$stmt = $conn->prepare("SELECT id, url, start_time, paused, loop_media FROM room WHERE room_key = ?");
+$stmt = $conn->prepare("SELECT id, url, start_time, paused, loop_media, owner FROM room WHERE room_key = ?");
 $stmt->bind_param("s", $room);
-$stmt->bind_result($room_id, $url, $start_time, $paused, $loop_media);
+$stmt->bind_result($room_id, $url, $start_time, $paused, $loop_media, $owner);
 $stmt->execute();
 $stmt->fetch();
 $stmt->close();
@@ -32,7 +33,9 @@ $data = [
 	"start_time" => $start_time,
 	"paused" => $paused,
 	"loop" => $loop_media,
-	"next" => $queue_id
+	"next" => $queue_id,
+	"locked" => isset($owner),
+	"is_owner" => session_id() == $owner
 ];
 
 header("Content-type: application/json");
