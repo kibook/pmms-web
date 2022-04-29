@@ -231,7 +231,7 @@ input {
 		height: auto;
 	}
 
-	mediaelementwrapper > iframe, mediaelementwrapper > video {
+	#video > iframe, #video > video {
 		position: relative;
 		height: 50vh;
 	}
