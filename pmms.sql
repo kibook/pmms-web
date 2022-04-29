@@ -18,5 +18,5 @@ CREATE TABLE queue (
 	room_id INTEGER,
 	url VARCHAR(255),
 	PRIMARY KEY (id),
-	FOREIGN KEY (room_id) REFERENCES room (id)
+	FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE
 );
