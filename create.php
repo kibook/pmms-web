@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-$room = `uuid`;
 $url = $_GET["url"];
 $lock = $_GET["lock"];
 
@@ -12,6 +11,12 @@ $conn = new mysqli($config["database"]["host"], $config["database"]["user"], $co
 $stmt = $conn->prepare("DELETE FROM room WHERE UNIX_TIMESTAMP() - last_sync > ?");
 $stmt->bind_param("i", $config["rooms"]["prune_after"]);
 $stmt->execute();
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT UUID()");
+$stmt->bind_result($room);
+$stmt->execute();
+$stmt->fetch();
 $stmt->close();
 
 $owner = $lock == "yes" ? session_id() : null;
