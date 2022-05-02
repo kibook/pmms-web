@@ -18,6 +18,7 @@ input, button {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	width: 90vw;
 }
 
 #title {
@@ -29,10 +30,18 @@ input, button {
 }
 
 #create-room {
-	display: grid;
-	grid-template-columns: repeat(3, max-content);
+	display: flex;
+	flex-flow: row;
 }
 
 #lock-btn {
-	width: 9vmax;
+	min-width: 9vmax;
+}
+
+#github-buttons {
+	text-align: center;
+}
+
+#url {
+	width: 100%;
 }
