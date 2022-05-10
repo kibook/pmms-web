@@ -4,3 +4,8 @@ DirectoryIndex index.php
 	Order allow,deny
 	Deny from all
 </Files>
+
+<Files pmms.php>
+	Order allow,deny
+	Deny from all
+</Files>

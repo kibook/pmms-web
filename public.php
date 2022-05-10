@@ -8,7 +8,12 @@ $room = $_GET["room"];
 $conn = create_db_connection();
 
 if (can_control_room($conn, session_id(), $room)) {
-	$stmt = $conn->prepare("UPDATE room SET start_time = start_time + (UNIX_TIMESTAMP() - paused), paused = null WHERE room_key = ?");
+	if ($is_public) {
+		$stmt = $conn->prepare("UPDATE room SET is_public = FALSE WHERE room_key = ?");
+	} else {
+		$stmt = $conn->prepare("UPDATE room SET is_public = TRUE WHERE room_key = ?");
+	}
+
 	$stmt->bind_param("s", $room);
 	$stmt->execute();
 	$stmt->close();

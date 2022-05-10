@@ -1,32 +1,17 @@
 <?php
+include "pmms.php";
+
 session_start();
 
 $room = $_GET["room"];
 $url = $_GET["url"];
 
-$config = parse_ini_file("config.ini", true);
+$conn = create_db_connection();
 
-$conn = new mysqli($config["database"]["host"], $config["database"]["user"], $config["database"]["password"], $config["database"]["name"], $config["database"]["port"]);
+if (can_control_room($conn, session_id(), $room)) {
+	$room_id = get_room_id($conn, $room);
 
-$stmt = $conn->prepare("SELECT owner FROM room WHERE room_key = ?");
-$stmt->bind_param("s", $room);
-$stmt->bind_result($owner);
-$stmt->execute();
-$stmt->fetch();
-$stmt->close();
-
-if ($owner == null || session_id() == $owner) {
-	$stmt = $conn->prepare("SELECT id FROM room WHERE room_key = ?");
-	$stmt->bind_param("s", $room);
-	$stmt->bind_result($room_id);
-	$stmt->execute();
-	$stmt->fetch();
-	$stmt->close();
-
-	$stmt = $conn->prepare("INSERT INTO queue (room_id, url) VALUES (?, ?)");
-	$stmt->bind_param("is", $room_id, $url);
-	$stmt->execute();
-	$stmt->close();
+	enqueue_video($conn, $room_id, $url);
 }
 
 $conn->close();

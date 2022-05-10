@@ -106,6 +106,12 @@ window.addEventListener('load', () => {
 		loopButton.disabled = disabled;
 	}
 
+	function enqueueVideo() {
+		let url = urlField.value;
+		urlField.value = '';
+		fetch(`enqueue.php?room=${roomKey}&url=${encodeURI(url)}`);
+	}
+
 	setInterval(() => {
 		fetch(`sync.php?room=${roomKey}`).then(resp => resp.json()).then(resp => {
 			if (resp.url == null) {
@@ -254,9 +260,7 @@ window.addEventListener('load', () => {
 	});
 
 	queueVideoButton.addEventListener('click', function() {
-		let url = urlField.value;
-		urlField.value = '';
-		fetch(`enqueue.php?room=${roomKey}&url=${encodeURI(url)}`);
+		enqueueVideo();
 	});
 
 	progressBar.addEventListener('input', function() {
@@ -269,9 +273,7 @@ window.addEventListener('load', () => {
 
 	urlField.addEventListener('keyup', function(e) {
 		if (e.code == 'Enter') {
-			let url = this.value;
-			this.value = '';
-			fetch(`enqueue.php?room=${roomKey}&url=${encodeURI(url)}`);
+			enqueueVideo();
 		}
 	});
 

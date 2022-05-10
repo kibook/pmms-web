@@ -1,15 +1,15 @@
 <?php
+include "pmms.php";
+
 session_start();
 
 $url = $_GET["url"];
 $lock = $_GET["lock"];
 
-$config = parse_ini_file("config.ini", true);
-
-$conn = new mysqli($config["database"]["host"], $config["database"]["user"], $config["database"]["password"], $config["database"]["name"], $config["database"]["port"]);
+$conn = create_db_connection();
 
 $stmt = $conn->prepare("DELETE FROM room WHERE UNIX_TIMESTAMP() - last_sync > ?");
-$stmt->bind_param("i", $config["rooms"]["prune_after"]);
+$stmt->bind_param("i", $Config["rooms"]["prune_after"]);
 $stmt->execute();
 $stmt->close();
 
@@ -21,10 +21,14 @@ $stmt->close();
 
 $owner = $lock == "yes" ? session_id() : null;
 
-$stmt = $conn->prepare("INSERT INTO room (room_key, url, start_time, last_sync, owner) VALUES (?, ?, UNIX_TIMESTAMP() + 2, UNIX_TIMESTAMP(), ?)");
-$stmt->bind_param("sss", $room, $url, $owner);
-$stmt->execute();
+$stmt = $conn->prepare("INSERT INTO room (room_key, start_time, last_sync, owner) VALUES (?, UNIX_TIMESTAMP() + 2, UNIX_TIMESTAMP(), ?)");
+$stmt->bind_param("ss", $room, $owner);
+$result = $stmt->execute();
 $stmt->close();
+
+$room_id = get_room_id($conn, $room);
+$queue_id = enqueue_video($conn, $room_id, $url);
+dequeue_video($conn, $room, $queue_id);
 
 $conn->close();
 

@@ -1,10 +1,9 @@
 <?php
+include "pmms.php";
 
 $room = $_GET["room"];
 
-$config = parse_ini_file("config.ini", true);
-
-$conn = new mysqli($config["database"]["host"], $config["database"]["user"], $config["database"]["password"], $config["database"]["name"], $config["database"]["port"]);
+$conn = create_db_connection();
 
 $stmt = $conn->prepare("SELECT queue.id AS id, queue.url AS url FROM room, queue WHERE room.id = queue.room_id AND room.room_key = ?");
 $stmt->bind_param("s", $room);
