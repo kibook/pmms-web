@@ -40,20 +40,47 @@ function enqueue_video($conn, $room_id, $url) {
 	}
 }
 
-function enqueue_youtube_playlist($conn, $room_id, $playlist_id) {
+function get_youtube_playlist_videos($playlist_id) {
 	global $Config;
 
 	if (!array_key_exists("api_key", $Config["youtube"])) {
 		error_log("No YouTube API key specified in config.ini!");
-		return;
+		return [];
 	}
 
-	$playlist = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/playlistItems?playlistId=" . $playlist_id . "&part=snippet&maxResults=100&key=" . $Config["youtube"]["api_key"]));
+	$video_ids = [];
+	$next_page_token = false;
+
+	while ($next_page_token !== null) {
+		$url = "https://www.googleapis.com/youtube/v3/playlistItems?playlistId=" . $playlist_id . "&part=snippet&maxResults=50&key=" . $Config["youtube"]["api_key"];
+
+		if ($next_page_token) {
+			$url = $url . "&pageToken=" . $next_page_token;
+		}
+
+		$playlist = json_decode(file_get_contents($url));
+
+		foreach ($playlist->items as $item) {
+			array_push($video_ids, $item->snippet->resourceId->videoId);
+		}
+
+		if (property_exists($playlist, "nextPageToken")) {
+			$next_page_token = $playlist->nextPageToken;
+		} else {
+			$next_page_token = null;
+		}
+	}
+
+	return $video_ids;
+}
+
+function enqueue_youtube_playlist($conn, $room_id, $playlist_id) {
+	$video_ids = get_youtube_playlist_videos($playlist_id);
 
 	$queue_id = null;
 
-	foreach ($playlist->items as $item) {
-		$id = enqueue_video($conn, $room_id, "https://youtube.com/watch?v=" . $item->snippet->resourceId->videoId);
+	foreach ($video_ids as $video_id) {
+		$id = enqueue_video($conn, $room_id, "https://youtube.com/watch?v=" . $video_id);
 
 		if ($queue_id == null) {
 			$queue_id = $id;
