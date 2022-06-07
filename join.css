@@ -46,22 +46,6 @@ input {
 	margin: 0;
 }
 
-#info-container {
-	left: 50%;
-	top: 0%;
-	transform: translate(-50%, 0);
-}
-
-#info {
-	display: grid;
-	grid-template-columns: repeat(2, max-content);
-	grid-gap: 0.5vh 0.5vw;
-	align-items: center;
-	height: 10vh;
-	font-size: 2vmax;
-	border-radius: 0 0 10px 10px;
-}
-
 #controls-container {
 	left: 50%;
 	bottom: 0%;
@@ -204,12 +188,6 @@ input {
 		height: auto;
 	}
 
-	#info-container {
-		left: auto;
-		top: auto;
-		transform: none;
-	}
-
 	#room-settings-container {
 		top: auto;
 		left: auto;
@@ -217,11 +195,6 @@ input {
 	}
 
 	#room-settings {
-		width: auto;
-		height: auto;
-	}
-
-	#info {
 		width: auto;
 		height: auto;
 	}

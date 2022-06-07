@@ -18,12 +18,6 @@ session_start();
 	</head>
 	<body>
 		<div id="video-container"></div>
-		<div id="info-container" class="hover-menu-container">
-			<div id="info" class="hover-menu">
-				<i class="fas fa-link"></i>
-				<a id="source" target="_blank"></a>
-			</div>
-		</div>
 		<div id="controls-container" class="hover-menu-container">
 			<div id="controls" class="hover-menu">
 				<button id="play">

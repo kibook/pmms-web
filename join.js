@@ -37,7 +37,6 @@ window.addEventListener('load', () => {
 	let currentTimecode = document.getElementById('current-timecode');
 	let durationTimecode = document.getElementById('duration-timecode');
 	let homeButton = document.getElementById('home');
-	let sourceLink = document.getElementById('source');
 	let nextButton = document.getElementById('next');
 	let queueList = document.getElementById('queue-list');
 	let loopButton = document.getElementById('loop');
@@ -156,20 +155,6 @@ window.addEventListener('load', () => {
 				media.addEventListener('canplay', () => {
 					progressBar.max = media.duration;
 					durationTimecode.innerHTML = timeToString(media.duration);
-
-					if (media.youTubeApi) {
-						let title = media.youTubeApi.getVideoData().title;
-
-						sourceLink.innerHTML = title;
-						sourceLink.href = media.src;
-
-						document.title = 'pmms - Watching ' + title;
-					} else {
-						sourceLink.innerHTML = media.src;
-						sourceLink.href = media.src;
-
-						document.title = 'pmms - Watching ' + media.src;
-					}
 
 					media.volume = volumeSlider.value / 100;
 
