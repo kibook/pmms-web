@@ -16,12 +16,13 @@ session_start();
 			<div id="title">
 				<div>🐩</div>
 				<div>PMMS</div>
+				<div id="subtitle">Poodle's Multimedia System</div>
 			</div>
+			<button id="catalog">
+				<i class="fas fa-grip-horizontal"></i> Browse
+			</button>
+			<hr>
 			<form action="create.php" id="create-room">
-				<input type="hidden" name="lock" id="lock">
-				<button type="button" id="lock-btn">
-					<i class="fas fa-lock-open"></i>
-				</button>
 				<input type="text" name="url" id="url" placeholder="Enter media URL...">
 				<button type="submit">&#xf35a;</button>
 			</form>

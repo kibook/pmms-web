@@ -48,12 +48,12 @@ session_start();
 			<div id="queue" class="hover-menu">
 				<div id="queue-title"><i class="fas fa-list"></i> Queue</div>
 				<div id="add-media">
-					<input id="url" placeholder="Enter media URL..."><button id="queue-video">&#xf35a;</button>
+					<button id="catalog"><i class="fas fa-grip-horizontal"></i></button><input id="url" placeholder="Enter media URL..."><button id="queue-video"><i class="fas fa-plus"></i></button>
 				</div>
 				<div id="queue-list"></div>
 				<div id="queue-controls">
-					<button id="loop">
-						<i class="fas fa-arrow-right"></i>
+					<button id="loop" style="color: grey;">
+						<i class="fas fa-retweet"></i>
 					</button>
 					<button id="next">
 						<i class="fas fa-step-forward"></i>

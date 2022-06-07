@@ -12,9 +12,9 @@ $stmt->bind_param("s", $room);
 $stmt->execute();
 $stmt->close();
 
-$stmt = $conn->prepare("SELECT id, url, start_time, paused, loop_media, owner FROM room WHERE room_key = ?");
+$stmt = $conn->prepare("SELECT id, url, start_time, paused, loop_media, owner, locked FROM room WHERE room_key = ?");
 $stmt->bind_param("s", $room);
-$stmt->bind_result($room_id, $url, $start_time, $paused, $loop_media, $owner);
+$stmt->bind_result($room_id, $url, $start_time, $paused, $loop_media, $owner, $locked);
 $stmt->execute();
 $stmt->fetch();
 $stmt->close();
@@ -34,7 +34,7 @@ $data = [
 	"paused" => $paused,
 	"loop" => $loop_media,
 	"next" => $queue_id,
-	"locked" => isset($owner),
+	"locked" => $locked,
 	"is_owner" => session_id() == $owner
 ];
 

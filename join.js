@@ -45,6 +45,7 @@ window.addEventListener('load', () => {
 	let volumeSlider = document.getElementById('volume');
 	let volumeStatus = document.getElementById('volume-status');
 	let lockButton = document.getElementById('lock');
+	let catalogButton = document.getElementById('catalog');
 
 	playButton.setPauseIcon = function() {
 		this.innerHTML = '<i class="fas fa-pause"></i>';
@@ -59,12 +60,12 @@ window.addEventListener('load', () => {
 	playButton.icon = "pause";
 
 	loopButton.setLoopIcon = function() {
-		this.innerHTML = '<i class="fas fa-retweet"></i>';
+		this.style.color = 'black';
 		this.icon = "loop";
 	}
 
 	loopButton.setContinueIcon = function() {
-		this.innerHTML = '<i class="fas fa-arrow-right"></i>';
+		this.style.color = 'grey';
 		this.icon = "continue";
 	}
 
@@ -104,6 +105,7 @@ window.addEventListener('load', () => {
 		urlField.disabled = disabled;
 		nextButton.disabled = disabled;
 		loopButton.disabled = disabled;
+		catalogButton.disabled = disabled;
 	}
 
 	function enqueueVideo() {
@@ -134,6 +136,8 @@ window.addEventListener('load', () => {
 					disableControls(false);
 				}
 			}
+
+			lockButton.disabled = !resp.is_owner;
 
 			if (media == null || currentUrl != resp.url) {
 				currentUrl = resp.url;
@@ -242,7 +246,7 @@ window.addEventListener('load', () => {
 			resp.forEach(item => {
 				let queueItem = document.createElement('div');
 				queueItem.className = "queue-item";
-				queueItem.innerHTML = item.url;
+				queueItem.innerHTML = item.title;
 				queueItem.addEventListener('click', () => {
 					fetch(`dequeue.php?room=${roomKey}&id=${item.id}`);
 				});
@@ -309,5 +313,9 @@ window.addEventListener('load', () => {
 
 	lockButton.addEventListener('click', function() {
 		fetch(`lock.php?room=${roomKey}`);
+	});
+
+	catalogButton.addEventListener('click', function() {
+		window.location = `browse.php?room=${roomKey}`;
 	});
 });

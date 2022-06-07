@@ -29,6 +29,12 @@ input, button {
 	font-family: "Brush Script MT";
 }
 
+#subtitle {
+	text-align: center;
+	font-size: 4vmax;
+	font-family: Helvetica;
+}
+
 #create-room {
 	display: flex;
 	flex-flow: row;
@@ -36,6 +42,14 @@ input, button {
 
 #lock-btn {
 	min-width: 9vmax;
+}
+
+#separator {
+	text-align: center;
+}
+
+#catalog {
+	width: 100%;
 }
 
 #github-buttons {

@@ -1,0 +1,58 @@
+html, body {
+	padding: 0;
+	margin: 0;
+	background: black;
+	font-family: Helvetica, "Font Awesome 5 Free";
+	font-size: 2vmax;
+	color: white;
+}
+
+body {
+	display: flex;
+	flex-flow: column;
+}
+
+input, button {
+	font-size: 7vmax;
+	font-family: Helvetica, "Font Awesome 5 Free";
+}
+
+#catalog {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+	grid-gap: 2vh 1vw;
+	padding: 1vh 1vw;
+}
+
+.catalog-entry {
+	text-align: center;
+	cursor: pointer;
+}
+
+.catalog-entry:hover .title {
+	color: pink;
+}
+
+.cover {
+	text-align: center;
+	min-height: 300px;
+}
+
+.cover * {
+	width: 200px;
+	max-height: 300px;
+}
+
+.cover button {
+	height: 100%;
+}
+
+.catalog-entry:hover {
+	overflow: visible;
+}
+
+.catalog-entry:hover .cover * {
+	width: 225px;
+	max-height: 350px;
+	transition: width 0.5s, height 0.5s;
+}
