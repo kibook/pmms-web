@@ -13,8 +13,17 @@ body {
 }
 
 input, button {
-	font-size: 7vmax;
+	font-size: 5vmax;
 	font-family: Helvetica, "Font Awesome 5 Free";
+}
+
+#categories {
+	display: flex;
+}
+
+#categories button {
+	flex-grow: 1;
+	font-size: 4vmax;
 }
 
 #catalog {

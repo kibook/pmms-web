@@ -31,7 +31,7 @@ session_start();
 					<div id="volume-status">
 						<i class="fas fa-volume-up"></i>
 					</div>
-					<input type="range" id="volume" min="0" max="100" value="50">
+					<input type="range" id="volume" min="0" max="100" value="100">
 				</div>
 				<button id="fullscreen">
 					<i class="fas fa-expand"></i>

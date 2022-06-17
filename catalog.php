@@ -1,15 +1,23 @@
 <?php
 include "pmms.php";
 
-$series = get_param("series");
-
 $conn = create_db_connection();
 
-if (isset($series)) {
-	$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series = ? ORDER BY title");
-	$stmt->bind_param("i", $series);
+if (isset($_GET["series"])) {
+	if (isset($_GET["category"])) {
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series = ? AND category = ? ORDER BY sort_title");
+		$stmt->bind_param("is", $_GET["series"], $_GET["category"]);
+	} else {
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series = ? ORDER BY sort_title");
+		$stmt->bind_param("i", $_GET["series"]);
+	}
 } else {
-	$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series IS NULL ORDER BY title");
+	if (isset($_GET["category"])) {
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series IS NULL AND category = ? ORDER BY sort_title");
+		$stmt->bind_param("s", $_GET["category"]);
+	} else {
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series IS NULL ORDER BY sort_title");
+	}
 }
 
 $stmt->execute();

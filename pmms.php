@@ -12,6 +12,8 @@ function create_db_connection() {
 }
 
 function prune_rooms($conn) {
+	global $Config;
+
 	$stmt = $conn->prepare("DELETE FROM room WHERE UNIX_TIMESTAMP() - last_sync > ?");
 	$stmt->bind_param("i", $Config["rooms"]["prune_after"]);
 	$stmt->execute();
@@ -105,7 +107,7 @@ function get_youtube_playlist_videos($playlist_id) {
 		return [];
 	}
 
-	$video_ids = [];
+	$videos = [];
 	$next_page_token = false;
 
 	while ($next_page_token !== null) {
@@ -118,7 +120,10 @@ function get_youtube_playlist_videos($playlist_id) {
 		$playlist = json_decode(file_get_contents($url));
 
 		foreach ($playlist->items as $item) {
-			array_push($video_ids, $item->snippet->resourceId->videoId);
+			$videos[] = [
+				"id" => $item->snippet->resourceId->videoId,
+				"title" => $item->snippet->title
+			];
 		}
 
 		if (property_exists($playlist, "nextPageToken")) {
@@ -128,11 +133,11 @@ function get_youtube_playlist_videos($playlist_id) {
 		}
 	}
 
-	return $video_ids;
+	return $videos;
 }
 
 function enqueue_series($conn, $room_id, $series) {
-	$stmt = $conn->prepare("SELECT url, title FROM catalog WHERE series = ? ORDER BY title");
+	$stmt = $conn->prepare("SELECT id, url, title FROM catalog WHERE series = ? ORDER BY sort_title");
 	$stmt->bind_param("i", $series);
 	$stmt->execute();
 
@@ -141,23 +146,29 @@ function enqueue_series($conn, $room_id, $series) {
 	$queue_id = null;
 
 	while ($row = $result->fetch_assoc()) {
-		$id = enqueue_video($conn, $room_id, $row["url"], $row["title"]);
+		if ($row["url"] == null) {
+			$id = enqueue_series($conn, $room_id, $row["id"]);
+		} else {
+			$id = enqueue_video($conn, $room_id, $row["url"], $row["title"]);
+		}
 
 		if ($queue_id == null) {
 			$queue_id = $id;
 		}
 	}
 
+	$stmt->close();
+
 	return $queue_id;
 }
 
 function enqueue_youtube_playlist($conn, $room_id, $playlist_id) {
-	$video_ids = get_youtube_playlist_videos($playlist_id);
+	$videos = get_youtube_playlist_videos($playlist_id);
 
 	$queue_id = null;
 
-	foreach ($video_ids as $video_id) {
-		$id = enqueue_video($conn, $room_id, "https://youtube.com/watch?v=" . $video_id);
+	foreach ($videos as $video) {
+		$id = enqueue_video($conn, $room_id, "https://youtube.com/watch?v=" . $video["id"], $video["title"]);
 
 		if ($queue_id == null) {
 			$queue_id = $id;

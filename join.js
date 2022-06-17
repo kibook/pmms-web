@@ -195,6 +195,10 @@ window.addEventListener('load', () => {
 						}
 
 						currentTime = media.duration;
+
+						media.pause();
+
+						return;
 					}
 				}
 

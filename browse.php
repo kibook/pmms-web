@@ -20,6 +20,24 @@ session_start();
 		<button id="back">
 			<i class="fas fa-grip-horizontal"></i>
 		</button>
+		<div id="categories">
+			<button id="category-all">
+				<i class="fas fa-grip-horizontal"></i>
+				<span>All</span>
+			</button>
+			<button id="category-movie">
+				<i class="fas fa-film"></i>
+				<span>Movies</span>
+			</button>
+			<button id="category-tv">
+				<i class="fas fa-tv"></i>
+				<span>TV</span>
+			</button>
+			<button id="category-music">
+				<i class="fas fa-music"></i>
+				<span>Music</span>
+			</button>
+		</div>
 		<div id="catalog"></div>
 	</body>
 </html>

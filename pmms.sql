@@ -28,7 +28,9 @@ CREATE TABLE catalog (
 	id INTEGER AUTO_INCREMENT,
 	url VARCHAR(255),
 	title VARCHAR(255) NOT NULL,
+	sort_title VARCHAR(255) NOT NULL,
 	cover VARCHAR(255) NOT NULL,
+	category ENUM ('movie', 'tv', 'music') NOT NULL,
 	series INTEGER REFERENCES catalog (id),
 	PRIMARY KEY (id)
 );
