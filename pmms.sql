@@ -32,5 +32,6 @@ CREATE TABLE catalog (
 	cover VARCHAR(255) NOT NULL,
 	category ENUM ('movie', 'tv', 'music') NOT NULL,
 	series INTEGER REFERENCES catalog (id),
+	hidden BOOLEAN NOT NULL DEFAULT FALSE,
 	PRIMARY KEY (id)
 );

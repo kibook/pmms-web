@@ -5,18 +5,18 @@ $conn = create_db_connection();
 
 if (isset($_GET["series"])) {
 	if (isset($_GET["category"])) {
-		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series = ? AND category = ? ORDER BY sort_title");
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series = ? AND category = ? AND hidden = FALSE ORDER BY sort_title");
 		$stmt->bind_param("is", $_GET["series"], $_GET["category"]);
 	} else {
-		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series = ? ORDER BY sort_title");
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series = ? AND hidden = FALSE ORDER BY sort_title");
 		$stmt->bind_param("i", $_GET["series"]);
 	}
 } else {
 	if (isset($_GET["category"])) {
-		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series IS NULL AND category = ? ORDER BY sort_title");
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series IS NULL AND category = ? AND hidden = FALSE ORDER BY sort_title");
 		$stmt->bind_param("s", $_GET["category"]);
 	} else {
-		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series IS NULL ORDER BY sort_title");
+		$stmt = $conn->prepare("SELECT id, url, title, cover FROM catalog WHERE series IS NULL AND hidden = FALSE ORDER BY sort_title");
 	}
 }
 
