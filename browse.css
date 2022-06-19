@@ -13,7 +13,7 @@ body {
 }
 
 input, button {
-	font-size: 5vmax;
+	font-size: 4vmax;
 	font-family: Helvetica, "Font Awesome 5 Free";
 }
 
@@ -23,7 +23,19 @@ input, button {
 
 #categories button {
 	flex-grow: 1;
-	font-size: 4vmax;
+}
+
+#search {
+	display: flex;
+	width: 100vw;
+}
+
+#search button, #search input {
+	font-size: 3vmax;
+}
+
+#query {
+	flex-grow: 1;
 }
 
 #catalog {

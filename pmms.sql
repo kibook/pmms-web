@@ -32,6 +32,8 @@ CREATE TABLE catalog (
 	cover VARCHAR(255) NOT NULL,
 	category ENUM ('movie', 'tv', 'music') NOT NULL,
 	series INTEGER REFERENCES catalog (id),
+	keywords VARCHAR(255) NOT NULL,
 	hidden BOOLEAN NOT NULL DEFAULT FALSE,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	FULLTEXT search (sort_title, keywords)
 );

@@ -13,12 +13,16 @@ window.addEventListener('load', function() {
 	let tvButton = document.getElementById('category-tv');
 	let musicButton = document.getElementById('category-music');
 
+	let searchQuery = document.getElementById('query');
+	let searchButton = document.getElementById('search-button');
+
 	homeButton.addEventListener('click', function() {
 		window.location = '.';
 	});
 
 	backButton.addEventListener('click', function() {
 		url.searchParams.delete('series');
+		url.searchParams.delete('query');
 		window.location = url.toString();
 	});
 
@@ -69,12 +73,30 @@ window.addEventListener('load', function() {
 			break;
 	}
 
-	if (series) {
+	searchButton.addEventListener('click', function() {
+		if (searchQuery.value == '') {
+			url.searchParams.delete('query');
+		} else {
+			url.searchParams.set('query', searchQuery.value);
+		}
+		window.location = url.toString();
+	});
+
+	searchQuery.addEventListener('keyup', function(e) {
+		if (e.code == 'Enter') {
+			if (this.value == '') {
+				url.searchParams.delete('query');
+			} else {
+				url.searchParams.set('query', this.value);
+			}
+			window.location = url.toString();
+		}
+	});
+
+	searchQuery.value = url.searchParams.get('query');
+
+	if (series || searchQuery.value != '') {
 		homeButton.style.display = 'none';
-		allButton.style.display = 'none';
-		movieButton.style.display = 'none';
-		tvButton.style.display = 'none';
-		musicButton.style.display = 'none';
 	} else {
 		backButton.style.display = 'none';
 	}
@@ -83,6 +105,7 @@ window.addEventListener('load', function() {
 		div.addEventListener('click', () => {
 			if (entry.url == null) {
 				url.searchParams.set('series', entry.id);
+				url.searchParams.delete('query');
 				window.location = url.toString();
 			} else {
 				if (roomKey == null) {
@@ -99,7 +122,7 @@ window.addEventListener('load', function() {
 	let catalogUrl = 'catalog.php?' + url.searchParams.toString();
 
 	fetch(catalogUrl).then(resp => resp.json()).then(data => {
-		if (series) {
+		if (series && searchQuery.value == '' && data.length > 0) {
 			let playAllDiv = document.createElement('div');
 
 			playAllDiv.className = 'catalog-entry';

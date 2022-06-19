@@ -38,6 +38,10 @@ session_start();
 				<span>Music</span>
 			</button>
 		</div>
+		<div id="search">
+			<input type="text" id="query">
+			<button id="search-button"><i class="fas fa-search"></i> Search</button>
+		</div>
 		<div id="catalog"></div>
 	</body>
 </html>
